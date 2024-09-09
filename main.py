@@ -1,8 +1,8 @@
 import pygame
 from sys import exit
-import configuration.config as config
-import configuration.components as components
-import Birds.population as pop
+import config
+import  components
+import population as pop
 
 pygame.init( )
 clock = pygame.time.Clock()
@@ -58,8 +58,9 @@ def main():
         
         
         #Clock tick and displt update
-        clock.tick(10000)
+        clock.tick(240)
         pygame.display.flip()
+        
         
         
 main()

@@ -1,4 +1,4 @@
-import NeuralNetwork.node as Node
+import  node as Node
 import random
 
 

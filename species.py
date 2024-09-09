@@ -1,12 +1,12 @@
-import Birds
-import Birds.player
-import NeuralNetwork.brain as brain
+import player
+
+import brain
 
 import operator
 import random
 
 class Species:
-    def __init__(self, player :  Birds.player) -> None:
+    def __init__(self, player :  player) -> None:
         self.players = []
         self.average_fitness = 0
         self.players.append(player)
@@ -16,7 +16,7 @@ class Species:
         self.champion = player.clone()
         self.staleness = 0
         
-    def add_to_species(self, player : Birds.player) -> None:
+    def add_to_species(self, player : player) -> None:
         self.players.append(player)
         
     def similarity(self, other_brain : brain) -> float:
@@ -45,7 +45,7 @@ class Species:
             self.average_fitness = 0
 
         
-    def offspring(self) -> Birds.player:
+    def offspring(self) -> player:
         baby = self.players[random.randint(1,len(self.players)) - 1].clone()
         baby.brain.mutate()
         return baby

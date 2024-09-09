@@ -1,13 +1,13 @@
 import sys
 from tkinter import Place
 
-from configuration.components import Pipe
+from components import Pipe
 sys.path.append('D:\Projet hors FAC\Flappy Bird\Genetic FlappyBird\Genetic-FlappyBird')
 
-import NeuralNetwork.brain as brain
+import  brain
 import random
 import pygame
-import configuration.config as config
+import  config
 
 
 class Player:

@@ -1,5 +1,5 @@
-import NeuralNetwork.node as node
-import NeuralNetwork.connection as  connection
+import node
+import connection
 import random
 
 class Brain:

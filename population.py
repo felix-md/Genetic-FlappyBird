@@ -1,6 +1,6 @@
-import configuration.config as config
-import Birds.player as player
-import Birds.species as species
+import  config
+import player
+import species
 
 import math
 import operator
