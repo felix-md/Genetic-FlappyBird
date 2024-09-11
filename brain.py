@@ -17,8 +17,8 @@ class Brain:
                 self.nodes[i].layer = 0
                 
             #Create bias node
-            self.nodes.append(node.Node(3))
-            self.nodes[3].layer = 0
+            # self.nodes.append(node.Node(3))
+            # self.nodes[3].layer = 0
             
             #Create output node
             self.nodes.append(node.Node(4))
@@ -84,7 +84,7 @@ class Brain:
                 return n
             
     def mutate(self):
-        if random.uniform(0,1) < 0.8 :
-            for i in range(0,len(self.connections)):
-                self.connections[i].mutate_weight()
         
+        for i in range(0,len(self.connections)):
+            self.connections[i].mutate_weight()
+    

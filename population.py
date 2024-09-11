@@ -113,11 +113,19 @@ class Population:
             
             
         #Fill open player slots with children
-        children_per_species = math.floor((self.size - len(self.species))/len(self.species))
-        for s in self.species:
-            for i in range (children_per_species):
-                children.append(s.offspring())
-                
+        
+        
+        tab = [40,30,20,10] 
+        for i,j in zip(range(len(self.species)),tab):
+            for _ in range(j):
+                champ = self.species[i].champion.clone()
+                champ.brain.mutate()
+                children.append(champ)
+            
+            
+            
+            
+            
         while len(children) < self.size:
             children.append(self.species[0].offspring())
             

@@ -24,9 +24,9 @@ class Player:
         
         #Ai related attributes
         self.decision = None
-        self.vision = [0.5,1,0.5]
+        self.vision = [0.5,1,0.5,0.5]
         self.fitness = 0
-        self.inputs = 3
+        self.inputs = 4
         self.brain = brain.Brain(self.inputs)
         self.brain.generate_net()
         
@@ -104,6 +104,12 @@ class Player:
             
             pygame.draw.line(config.window, self.color, self.rect.center,
                              (self.rect.center[0], config.pipes[0].bottom_rect.top))
+            
+            ground_y = config.ground.rect.top
+            self.vision[3] = max(0, ground_y - self.rect.bottom) / 500
+            
+            pygame.draw.line(config.window, self.color, self.rect.bottomleft,
+                             (self.rect.bottomleft[0], ground_y))
         
         
         
@@ -111,7 +117,8 @@ class Player:
         
     def think(self) -> None:
         self.decision = self.brain.feed_forward(self.vision)
-        if self.decision > 0.73:
+        print(self.decision)
+        if self.decision > 0.8:
             self.bird_flap()
             
     def calculate_fitness(self) -> None:
