@@ -24,7 +24,7 @@ class Player:
         
         #Ai related attributes
         self.decision = None
-        self.vision = [0.5,1,0.5,0.5]
+        self.vision = [0.5,0.5,0.5,0.5]
         self.fitness = 0
         self.inputs = 4
         self.brain = brain.Brain(self.inputs)
@@ -48,6 +48,7 @@ class Player:
                    for pipe in config.pipes)
         
     def update(self, ground : config.components.Ground) -> None:
+       
         if not self.ground_collision(ground) and not self.pipe_collision():
             #Gravity
             self.vel += 0.25
@@ -86,30 +87,30 @@ class Player:
         if config.pipes:
             
             #Line to top pipe
-            self.vision[0] = max(0, self.rect.center[1] - self.closest_pipe().top_rect.bottom) / 500
+            self.vision[0] =  (self.rect.center[1] - self.closest_pipe().top_rect.bottom)/ 500
             
             pygame.draw.line(config.window, self.color, self.rect.center,
                              (self.rect.center[0], config.pipes[0].top_rect.bottom))
             
             #Line to mid pipe
-            self.vision[1] = max(0,  self.closest_pipe().x - self.rect.center[0] ) / 500
+            self.vision[1] =  (self.closest_pipe().x - self.rect.center[0]) / 500
             
             pygame.draw.line(config.window, self.color, self.rect.center,
                              (config.pipes[0].x, self.rect.center[1]))
             
-        
-        
             #Line to bottom pipe
-            self.vision[2] = max(0, self.closest_pipe().bottom_rect.top - self.rect.center[1]) / 500
+            self.vision[2] = (self.closest_pipe().bottom_rect.top - self.rect.center[1]) / 500
             
             pygame.draw.line(config.window, self.color, self.rect.center,
                              (self.rect.center[0], config.pipes[0].bottom_rect.top))
             
             ground_y = config.ground.rect.top
-            self.vision[3] = max(0, ground_y - self.rect.bottom) / 500
+            self.vision[3] =  (ground_y - self.rect.bottom) / 500
             
             pygame.draw.line(config.window, self.color, self.rect.bottomleft,
                              (self.rect.bottomleft[0], ground_y))
+            
+            # print(self.vision)
         
         
         
@@ -117,7 +118,7 @@ class Player:
         
     def think(self) -> None:
         self.decision = self.brain.feed_forward(self.vision)
-        print(self.decision)
+        # print(self.decision)
         if self.decision > 0.8:
             self.bird_flap()
             

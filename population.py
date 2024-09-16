@@ -27,17 +27,17 @@ class Population:
                 
                 
     def natural_selection(self) -> None:
-        print("SPECIATE")
-        self.speciate()
+        # print("SPECIATE")
+        # self.speciate()
         
         print("CALCULATE FITNESS")
         self.calculate_fitness()
         
-        print("KILL EXTINCT")
-        self.kill_extinct()
+        # print("KILL EXTINCT")
+        # self.kill_extinct()
         
-        print("KILL STUCK")
-        self.kill_stale()
+        # print("KILL STUCK")
+        # self.kill_stale()
         
         print("SORT BY FITNESS")
         self.sort_by_fitness()
@@ -64,77 +64,73 @@ class Population:
     def calculate_fitness(self) -> None:
         for p in self.players:
             p.calculate_fitness()
-        for s in self.species:
-            s.calculate_average_fitness()
+        # for s in self.species:
+        #     s.calculate_average_fitness()
             
-    def kill_extinct(self) -> None:
-        species_bin = []
-        for s in self.species :
-            if len(s.players) == 0:
-                species_bin.append(s)
+    # def kill_extinct(self) -> None:
+    #     species_bin = []
+    #     for s in self.species :
+    #         if len(s.players) == 0:
+    #             species_bin.append(s)
                 
-        for s in species_bin:
-            self.species.remove(s)    
+    #     for s in species_bin:
+    #         self.species.remove(s)    
             
-    def kill_stale(self) -> None :
-        player_bin = []
-        species_bin = []
-        for s in self.species:
-            if s.staleness >=8:
-                if len(self.species) > len(species_bin) + 1:
-                    species_bin.append(s)
-                    for p in s.players:
-                        player_bin .append(p)
+    # def kill_stale(self) -> None :
+    #     player_bin = []
+    #     species_bin = []
+    #     for s in self.species:
+    #         if s.staleness >=8:
+    #             if len(self.species) > len(species_bin) + 1:
+    #                 species_bin.append(s)
+    #                 for p in s.players:
+    #                     player_bin .append(p)
                         
-                else:
-                    s.staleness = 0
-        for p in player_bin:
-            self.players.remove(p)
-        for s in species_bin:
-            self.species.remove(s)
+    #             else:
+    #                 s.staleness = 0
+    #     for p in player_bin:
+    #         self.players.remove(p)
+    #     for s in species_bin:
+    #         self.species.remove(s)
             
             
     def sort_by_fitness(self) -> None:
-        for s in self.species:
-            s.sort_players_by_fitness()
+        self.players.sort(key=operator.attrgetter('fitness'), reverse=True)
+        # for s in self.species:
+        #     s.sort_players_by_fitness()
         
-        self.species.sort(key=operator.attrgetter('benchmark_fitness'), reverse=True)
-        print("Atpr score: " + str(self.atpr_score))
-        print("Best of this generation: " + str(self.species[0].champion.fitness))
-        if self.species[0].champion.fitness > self.atpr_score:
-            self.atpr_score = self.species[0].champion.fitness
-            print("New atpr score: " + str(self.atpr_score))
+        # self.species.sort(key=operator.attrgetter('benchmark_fitness'), reverse=True)
+        # print("Atpr score: " + str(self.atpr_score))
+        # print("Best of this generation: " + str(self.species[0].champion.fitness))
+        # if self.species[0].champion.fitness > self.atpr_score:
+        #     self.atpr_score = self.species[0].champion.fitness
+        #     print("New atpr score: " + str(self.atpr_score))
         
     def next_gen(self) -> None:
-        children = []
+        
         #Clone the champion 
-        for s in self.species:
-            children.append(s.champion.clone())
+        # for s in self.species:
+        #     children.append(s.champion.clone())
             
             
         #Fill open player slots with children
         
+        children = self.players[::10]
+        for i in range(0,10):
+            for _ in range(9):
+                child = children[i].clone()
+                child.brain.mutate()
+                children.append(child)
         
-        tab = [40,30,20,10] 
-        for i,j in zip(range(len(self.species)),tab):
-            for _ in range(j):
-                champ = self.species[i].champion.clone()
-                champ.brain.mutate()
-                children.append(champ)
-            
-            
-            
-            
-            
-        while len(children) < self.size:
-            children.append(self.species[0].offspring())
-            
+        
+        print(len(children))
         self.players = []
         for c in children:
             self.players.append(c)
-        
+        print(self.players)
         self.generation += 1
                 
     #return true is all players are dead
     def extinct(self) -> bool:
+        # print(self.players)
         return not (any( p.alive for p in self.players))

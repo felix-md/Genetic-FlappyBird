@@ -3,6 +3,7 @@ import connection
 import random
 
 class Brain:
+    
     def __init__(self, inputs : int, clone=False) -> None:
         self.connections = []
         self.nodes = []
@@ -16,10 +17,6 @@ class Brain:
                 self.nodes.append(node.Node(i))
                 self.nodes[i].layer = 0
                 
-            #Create bias node
-            # self.nodes.append(node.Node(3))
-            # self.nodes[3].layer = 0
-            
             #Create output node
             self.nodes.append(node.Node(4))
             self.nodes[4].layer = 1
@@ -48,10 +45,11 @@ class Brain:
                     self.net.append(self.nodes[i])
                     
     def feed_forward(self, vision : list) -> float:
-        for i in range(0,self.inputs):
+        
+        for i in range(self.inputs):
+          
             self.nodes[i].output_value = vision[i]
         
-        self.nodes[3].output_value = 1
         
         for i in range(0,len(self.net)):
             self.net[i].activate()

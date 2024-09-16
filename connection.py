@@ -13,8 +13,9 @@ class Connection:
         if random.uniform(0, 1) < 0.1:
             self.weight = random.uniform(-1, 1)
         else:
-            self.weight += random.gauss(0, 1)/ 2
+            self.weight += random.gauss(0, 1)/ 10
             self.weight = max(min(self.weight, 1), -1)
+        print(self.weight)
                 
                 
     def clone(self, from_node, to_node):
